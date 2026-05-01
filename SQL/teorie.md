@@ -84,8 +84,7 @@ BEGIN
 END;
 ```
 
-
-
+### SQL Joins
 
 1. Normalizarea 1NF-3NF
 
@@ -96,3 +95,5 @@ END;
 4. Concepte de SQL pentru Big Data
 
 5. Cum functioneaza un query in spate si cum poate fi optimizat ? Execution Plan ce este ?
+
+Leetcode SQL: 1581, 197
