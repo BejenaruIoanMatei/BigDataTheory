@@ -86,6 +86,78 @@ END;
 
 ### SQL Joins
 
+-    ANTI JOIN -> LEFT JOIN sa zic a.id = b.id cu a tabela din stanga. Si ma uit sa vad ce NU este in join, adica unde am b.id = NULL
+
+Cum functioneaza baza de date:
+
+1. FROM & JOIN -> se colecteaza datele din tabele
+
+2. GROUP BY -> se impart randurile in buckets bazate pe coloanele care nu sunt in functia de agregare, dar sunt in select
+
+3. SUM(AMOUNT) -> se calculeaza totalul pentru fiecare bucket (grup)
+
+4. SELECT (INCLUSIV CASE) -> abia acum se uita la rezultat si aplica regulile din CASE
+
+```sql
+with febProds as (
+	select
+		p.Product,
+        s.Amount,
+        s.SaleDate
+	from products p 
+    left join sales s on p.PID = s.PID and s.SaleDate = '2022-2-1'
+)
+select
+	Product,
+	sum(Amount) as 'total',
+    case
+		when sum(Amount) > 0 then 'yes'
+        else 'no'
+	end as 'shipped'
+from febProds
+group by Product;
+
+```
+
+Deci daca am un CASE in select nu trebuie bagat in GROUP BY
+
+### Window Functions
+
+```sql
+function() over (
+    partition by column1
+    order by column2 
+) as SOMETHING
+```
+
+Cumulative Sales: 
+
+```sql
+select
+    date_id,
+    sales,
+    sum(sales) over (
+        order by date_id asc
+        rows unbounded preceding
+    ) as cum_sales
+from orders;
+```
+
+3-Day Average:
+
+```sql
+select
+    date_id,
+    sales,
+    avg(sales) over (
+        order by date_id asc
+        rows between 2 preceding
+        and current row
+    ) as 3dayAvg
+from orders;
+```
+
+
 1. Normalizarea 1NF-3NF
 
 2. Denormalizarea pentru Big Data
