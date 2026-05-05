@@ -216,3 +216,20 @@ df.unpersist()      # eliberezi memoria manual
 | 10 | Narrow vs Wide transformation? | Narrow = fără shuffle (filter, select). Wide = cu shuffle (groupBy, join, sort). |
 
 ---
+
+# OBS importante
+
+1. Hadoop este format din 3 piloni mari:
+
+     -    HDFS (Hadoop Distributed File System) -> Unde stocam datele
+
+     -    YARN (Yet Another Resource Negociator) -> Resource Manager, poate fi inlocuit de K8S
+
+     -    MapReduce -> Motorul vechi de procesare a datelor
+
+2.   Spark inlocuieste MapReduce din Hadoop, dar poate face echipa buna cu celelalte componente, cum ar fi:
+
+     -    Avem datele stocate in HDFS, folosim YARN si vrem sa procesam datele in Spark. Asa folosim tot ce are de oferit Hadoop in combinatie cu Spark si avem un setup solid
+
+     -    Modern Setup: S3/GCS/ADLS (Object Storage) in cloud,
+     cluster manager cu Kubernetes si pe procesare Spark. E mai usor de scalat. Pe langa setup-ul asta se poate folosi si Databricks direct ca all-in-one platform
